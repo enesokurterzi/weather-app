@@ -1,5 +1,7 @@
 package com.example.weatherapp.presentation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -14,12 +16,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun DailyWeatherForecast(
-    dailyWeatherState: DailyWeatherState,
+    state: WeatherState,
     modifier: Modifier = Modifier
 ) {
-    dailyWeatherState.dailyWeatherInfo?.weatherDataDaily?.let { data ->
+    state.dailyWeatherInfo?.weatherDataDaily?.let { data ->
         Column(
             modifier = modifier
                 .fillMaxWidth()
@@ -36,7 +39,7 @@ fun DailyWeatherForecast(
                     DailyWeatherDisplay(
                         dailyWeatherData = dailyWeatherData,
                         modifier = Modifier
-                            .height(100.dp)
+                            .height(110.dp)
                             .padding(horizontal = 16.dp)
                     )
                 }

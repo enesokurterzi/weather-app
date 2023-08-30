@@ -1,6 +1,6 @@
 package com.example.weatherapp.presentation
 
-import android.util.Log
+import android.location.Location
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -24,34 +24,15 @@ class WeatherViewModel @Inject constructor(
     var state by mutableStateOf(WeatherState())
         private set
 
-    var dailyState by mutableStateOf(DailyWeatherState())
-        private set
-
-    fun loadWeatherInfo() {
+    fun loadInfo() {
         viewModelScope.launch {
             state = state.copy(
                 isLoading = true,
                 error = null
             )
             locationTracker.getCurrentLocation()?.let { location ->
-
-                when(val result = repository.getWeatherData(location.latitude, location.longitude)) {
-                    is Resource.Success -> {
-                        state = state.copy(
-                            weatherInfo = result.data,
-                            isLoading = false,
-                            error = null
-                        )
-                    }
-                    is Resource.Error -> {
-                        state = state.copy(
-                            weatherInfo = null,
-                            isLoading = false,
-                            error = result.message
-                        )
-
-                    }
-                }
+                loadWeatherInfo(location)
+                loadDailyWeatherInfo(location)
 
             } ?: kotlin.run {
                 state = state.copy(
@@ -62,23 +43,44 @@ class WeatherViewModel @Inject constructor(
         }
     }
 
-    fun loadDailyWeatherInfo() {
-        viewModelScope.launch{
-            locationTracker.getCurrentLocation()?.let { location ->
-                when(val result = dailyWeatherRepository.getDailyWeatherData(location.latitude, location.longitude)) {
-                    is Resource.Success -> {
-                        dailyState = dailyState.copy(
-                            dailyWeatherInfo = result.data
-                        )
-                    }
-                    is Resource.Error -> {
-                        dailyState = dailyState.copy(
-                            dailyWeatherInfo = null
-                        )
-
-                    }
-                }
+    private suspend fun loadDailyWeatherInfo(location: Location) {
+        when (val result =
+            dailyWeatherRepository.getDailyWeatherData(location.latitude, location.longitude)) {
+            is Resource.Success -> {
+                state = state.copy(
+                    dailyWeatherInfo = result.data
+                )
             }
+
+            is Resource.Error -> {
+                state = state.copy(
+                    dailyWeatherInfo = result.data
+                )
+
+            }
+        }
+
+    }
+
+    private suspend fun loadWeatherInfo(location: Location) {
+        when (val result = repository.getWeatherData(location.latitude, location.longitude)) {
+            is Resource.Success -> {
+                state = state.copy(
+                    weatherInfo = result.data,
+                    isLoading = false,
+                    error = null
+                )
+            }
+
+            is Resource.Error -> {
+                state = state.copy(
+                    weatherInfo = null,
+                    isLoading = false,
+                    error = result.message
+                )
+
+            }
+
         }
     }
 
