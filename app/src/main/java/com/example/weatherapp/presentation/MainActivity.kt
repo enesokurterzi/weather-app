@@ -24,6 +24,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.example.weatherapp.presentation.home.DailyWeatherForecast
+import com.example.weatherapp.presentation.home.WeatherCard
+import com.example.weatherapp.presentation.home.WeatherForecast
 import com.example.weatherapp.presentation.ui.theme.DarkBlue
 import com.example.weatherapp.presentation.ui.theme.DeepBlue
 import com.example.weatherapp.presentation.ui.theme.WeatherAppTheme

@@ -1,4 +1,4 @@
-package com.example.weatherapp.presentation
+package com.example.weatherapp.presentation.home
 
 import android.os.Build
 import androidx.annotation.RequiresApi
@@ -15,19 +15,19 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.example.weatherapp.domain.local.weather.WeatherData
+import com.example.weatherapp.domain.local.dailyweather.DailyWeatherData
 import java.time.format.DateTimeFormatter
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun HourlyWeatherDisplay(
-    weatherData: WeatherData,
+fun DailyWeatherDisplay(
+    dailyWeatherData: DailyWeatherData,
     modifier: Modifier = Modifier,
     textColor: Color = Color.White
 ) {
-    val formattedTime = remember(weatherData) {
-        weatherData.time.format(
-            DateTimeFormatter.ofPattern("HH:mm")
+    val formattedDay = remember (dailyWeatherData) {
+        dailyWeatherData.dailyTime.format(
+            DateTimeFormatter.ofPattern("dd/MM")
         )
     }
     Column(
@@ -36,18 +36,25 @@ fun HourlyWeatherDisplay(
         verticalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
-            text = formattedTime,
+            text = formattedDay,
             color = Color.LightGray
         )
         Image(
-            painter = painterResource(id = weatherData.weatherType.iconRes),
-            contentDescription = weatherData.weatherType.weatherDesc,
+            painter = painterResource(id = dailyWeatherData.dailyWeatherCode.iconRes),
+            contentDescription = dailyWeatherData.dailyWeatherCode.weatherDesc,
             modifier = Modifier.width(40.dp)
         )
-        Text(
-            text = "${weatherData.temperatureCelsius}°C",
-            color = textColor,
-            fontWeight = FontWeight.Bold
-        )
+        Column {
+            Text(
+                text = "${dailyWeatherData.dailyMaxTemperature}°C",
+                color = textColor,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = "${dailyWeatherData.dailyMinTemperature}°C",
+                color = Color.LightGray,
+                fontWeight = FontWeight.Bold
+            )
+        }
     }
 }
