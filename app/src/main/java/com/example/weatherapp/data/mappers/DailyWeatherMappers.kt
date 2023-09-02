@@ -28,7 +28,6 @@ fun DailyWeatherDataDto.toDailyWeatherDataMap(): List<DailyWeatherData> {
 @RequiresApi(Build.VERSION_CODES.O)
 fun DailyWeatherDto.toDailyWeatherInfo(): DailyWeatherInfo {
     val dailyWeatherDataMap = dailyWeatherData.toDailyWeatherDataMap()
-    Log.d("deneme", dailyWeatherDataMap.toString())
 
     return DailyWeatherInfo(
         weatherDataDaily = dailyWeatherDataMap

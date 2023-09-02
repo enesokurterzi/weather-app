@@ -1,6 +1,7 @@
 package com.example.weatherapp.presentation
 
 import android.location.Location
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -31,8 +32,8 @@ class WeatherViewModel @Inject constructor(
                 error = null
             )
             locationTracker.getCurrentLocation()?.let { location ->
-                loadWeatherInfo(location)
-                loadDailyWeatherInfo(location)
+                launch { loadWeatherInfo(location) }
+                launch { loadDailyWeatherInfo(location) }
 
             } ?: kotlin.run {
                 state = state.copy(
@@ -48,7 +49,8 @@ class WeatherViewModel @Inject constructor(
             dailyWeatherRepository.getDailyWeatherData(location.latitude, location.longitude)) {
             is Resource.Success -> {
                 state = state.copy(
-                    dailyWeatherInfo = result.data
+                    dailyWeatherInfo = result.data,
+
                 )
             }
 

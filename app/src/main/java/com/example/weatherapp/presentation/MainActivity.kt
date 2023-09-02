@@ -52,7 +52,9 @@ class MainActivity : ComponentActivity() {
         ))
         setContent {
             WeatherAppTheme {
-                Box(modifier = Modifier.fillMaxSize()) {
+                Box(modifier = Modifier.fillMaxSize()
+                    .background(DarkBlue)) {
+                    if (!viewModel.state.isLoading)
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
