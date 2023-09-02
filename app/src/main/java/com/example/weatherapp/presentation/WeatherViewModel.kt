@@ -32,8 +32,14 @@ class WeatherViewModel @Inject constructor(
                 error = null
             )
             locationTracker.getCurrentLocation()?.let { location ->
-                launch { loadWeatherInfo(location) }
-                launch { loadDailyWeatherInfo(location) }
+
+                launch {
+                    launch { loadWeatherInfo(location) }
+                    launch { loadDailyWeatherInfo(location) }
+                }
+                    .invokeOnCompletion {
+                        state = state.copy(isLoading = false)
+                    }
 
             } ?: kotlin.run {
                 state = state.copy(
@@ -69,7 +75,6 @@ class WeatherViewModel @Inject constructor(
             is Resource.Success -> {
                 state = state.copy(
                     weatherInfo = result.data,
-                    isLoading = false,
                     error = null
                 )
             }
@@ -77,7 +82,6 @@ class WeatherViewModel @Inject constructor(
             is Resource.Error -> {
                 state = state.copy(
                     weatherInfo = null,
-                    isLoading = false,
                     error = result.message
                 )
 
