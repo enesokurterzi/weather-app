@@ -54,22 +54,24 @@ class MainActivity : ComponentActivity() {
             WeatherAppTheme {
                 Box(modifier = Modifier.fillMaxSize()
                     .background(DarkBlue)) {
-                    if (!viewModel.state.isLoading)
-                    Column(
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .background(DarkBlue)
-                            .verticalScroll(rememberScrollState())
-                    ) {
-                        WeatherCard(
-                            state = viewModel.state,
-                            backgroundColor = DeepBlue
-                        )
-                        Spacer(modifier = Modifier.height(16.dp))
-                        WeatherForecast(state = viewModel.state)
-                        Spacer(modifier = Modifier.height(16.dp))
-                        DailyWeatherForecast(state = viewModel.state)
-                        
+                    if (!viewModel.state.isLoading) {
+                        Column(
+                            modifier = Modifier
+                                .fillMaxSize()
+                                .background(DarkBlue)
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            WeatherCard(
+                                state = viewModel.state,
+                                backgroundColor = DeepBlue
+                            )
+                            Spacer(modifier = Modifier.height(16.dp))
+                            WeatherForecast(state = viewModel.state)
+                            Spacer(modifier = Modifier.height(16.dp))
+                            DailyWeatherForecast(state = viewModel.state)
+
+                        }
+
                     }
                     if (viewModel.state.isLoading) {
                         CircularProgressIndicator(
