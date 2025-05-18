@@ -1,7 +1,6 @@
 package com.example.weatherapp.presentation
 
 import android.location.Location
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
