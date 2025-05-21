@@ -28,6 +28,11 @@ This app gets all data from a free weather API "https://open-meteo.com".
     implementation ("com.squareup.retrofit2:retrofit:2.9.0") <p>
     implementation ("com.squareup.retrofit2:converter-moshi:2.9.0") <p>
 
+  - Chucker <p>
+    val chuckerVersion = "4.1.0" <p>
+    debugImplementation("com.github.chuckerteam.chucker:library:$chuckerVersion") <p>
+    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:$chuckerVersion") <p>
+
 
 ## Images from the Project
 
