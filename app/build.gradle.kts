@@ -23,8 +23,18 @@ android {
         }
     }
 
+    signingConfigs {
+        create("release") {
+            keyAlias = "private"
+            keyPassword = "123456"
+            storeFile = file("${project.rootDir}/keys/keystore.jks")
+            storePassword = "123456"
+        }
+    }
+
     buildTypes {
-        release {
+        getByName("release") {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -39,9 +49,10 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-    buildFeatures {
-        compose = true
-    }
+buildFeatures {
+    compose = true
+    buildConfig = true
+}
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.0"
     }
@@ -86,6 +97,11 @@ dependencies {
     implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.3")
 
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.9.0")
+
+    // Chucker
+    val chuckerVersion = "4.1.0"
+    debugImplementation("com.github.chuckerteam.chucker:library:$chuckerVersion")
+    releaseImplementation("com.github.chuckerteam.chucker:library-no-op:$chuckerVersion")
 
 }
 

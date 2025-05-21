@@ -1,17 +1,16 @@
 package com.example.weatherapp.data.repository
 
 import android.os.Build
-import android.util.Log
 import androidx.annotation.RequiresApi
 import com.example.weatherapp.data.mappers.toWeatherInfo
-import com.example.weatherapp.data.remote.weather.WeatherApi
+import com.example.weatherapp.data.remote.weather.WeatherService
+import com.example.weatherapp.domain.local.weather.WeatherInfo
 import com.example.weatherapp.domain.repository.WeatherRepository
 import com.example.weatherapp.domain.util.Resource
-import com.example.weatherapp.domain.local.weather.WeatherInfo
 import javax.inject.Inject
 
 class WeatherRepositoryImpl @Inject constructor(
-    private val api: WeatherApi
+    private val weatherService: WeatherService
 ): WeatherRepository {
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -21,7 +20,7 @@ class WeatherRepositoryImpl @Inject constructor(
     ): Resource<WeatherInfo> {
         return try {
             Resource.Success(
-                data = api.getWeatherData(
+                data = weatherService.getWeatherData(
                     lat = lat,
                     long = long
                 ).toWeatherInfo()
